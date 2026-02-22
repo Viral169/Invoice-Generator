@@ -1,3 +1,6 @@
+## Project Link
+https://invoice-genera.netlify.app/
+
     # Invoice Details Page — Full Stack Assignment
 
 A clean Invoice Details module built with **React + Vite + Tailwind** (frontend) and **Express + MongoDB + Mongoose** (backend).
