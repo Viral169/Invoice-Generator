@@ -1,16 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FileText, IndianRupee, TrendingUp, Clock, CheckCircle, Plus, Archive, Search, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  FileText,
+  IndianRupee,
+  TrendingUp,
+  Clock,
+  CheckCircle,
+  Plus,
+  Archive,
+  Search,
+  AlertCircle,
+} from "lucide-react";
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api/invoices';
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 const Dashboard = () => {
   const [invoices, setInvoices] = useState([]);
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('ALL');
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("ALL");
 
   useEffect(() => {
     fetchInvoices();
@@ -21,14 +31,21 @@ const Dashboard = () => {
       setError(null);
       const response = await fetch(`${API_BASE}/all`);
       if (!response.ok) {
-        throw new Error(response.status === 404 ? "API endpoint not found" : "Failed to fetch invoices");
+        throw new Error(
+          response.status === 404
+            ? "API endpoint not found"
+            : "Failed to fetch invoices"
+        );
       }
       const data = await response.json();
       setInvoices(data.invoices || []);
       setStats(data.stats || {});
     } catch (err) {
       console.error("Error fetching invoices", err);
-      setError(err.message || "An unexpected error occurred. Please check if the API server is running.");
+      setError(
+        err.message ||
+          "An unexpected error occurred. Please check if the API server is running."
+      );
     } finally {
       setLoading(false);
     }
@@ -39,10 +56,12 @@ const Dashboard = () => {
       inv.invoiceNumber.toLowerCase().includes(search.toLowerCase()) ||
       inv.customerName.toLowerCase().includes(search.toLowerCase());
 
-    if (filter === 'ALL') return matchSearch && !inv.isArchived;
-    if (filter === 'DRAFT') return matchSearch && inv.status === 'DRAFT' && !inv.isArchived;
-    if (filter === 'PAID') return matchSearch && inv.status === 'PAID' && !inv.isArchived;
-    if (filter === 'ARCHIVED') return matchSearch && inv.isArchived;
+    if (filter === "ALL") return matchSearch && !inv.isArchived;
+    if (filter === "DRAFT")
+      return matchSearch && inv.status === "DRAFT" && !inv.isArchived;
+    if (filter === "PAID")
+      return matchSearch && inv.status === "PAID" && !inv.isArchived;
+    if (filter === "ARCHIVED") return matchSearch && inv.isArchived;
     return matchSearch;
   });
 
@@ -51,7 +70,9 @@ const Dashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500 text-sm font-medium">Loading Dashboard...</p>
+          <p className="text-slate-500 text-sm font-medium">
+            Loading Dashboard...
+          </p>
         </div>
       </div>
     );
@@ -62,7 +83,9 @@ const Dashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 py-8 px-4">
         <div className="max-w-md bg-white rounded-2xl shadow-md border border-red-200 p-8 text-center">
           <AlertCircle size={48} className="mx-auto text-red-500 mb-4" />
-          <h2 className="text-lg font-bold text-slate-800 mb-2">Error Loading Dashboard</h2>
+          <h2 className="text-lg font-bold text-slate-800 mb-2">
+            Error Loading Dashboard
+          </h2>
           <p className="text-slate-500 text-sm mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -80,8 +103,12 @@ const Dashboard = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Invoices</h1>
-            <p className="text-slate-400 text-sm mt-1">Manage and track all your invoices</p>
+            <h1 className="text-3xl font-bold text-slate-800 tracking-tight">
+              Invoices
+            </h1>
+            <p className="text-slate-400 text-sm mt-1">
+              Manage and track all your invoices
+            </p>
           </div>
           <Link
             to="/create"
@@ -96,9 +123,13 @@ const Dashboard = () => {
               <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
                 <FileText size={15} className="text-blue-500" />
               </div>
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Total</span>
+              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                Total
+              </span>
             </div>
-            <p className="text-2xl font-bold text-slate-800">{stats.totalInvoices || 0}</p>
+            <p className="text-2xl font-bold text-slate-800">
+              {stats.totalInvoices || 0}
+            </p>
           </div>
 
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
@@ -106,9 +137,13 @@ const Dashboard = () => {
               <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
                 <TrendingUp size={15} className="text-indigo-500" />
               </div>
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Revenue</span>
+              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                Revenue
+              </span>
             </div>
-            <p className="text-2xl font-bold text-slate-800">₹{(stats.totalRevenue || 0).toLocaleString()}</p>
+            <p className="text-2xl font-bold text-slate-800">
+              ₹{(stats.totalRevenue || 0).toLocaleString()}
+            </p>
           </div>
 
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
@@ -116,9 +151,13 @@ const Dashboard = () => {
               <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
                 <IndianRupee size={15} className="text-emerald-500" />
               </div>
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Paid</span>
+              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                Paid
+              </span>
             </div>
-            <p className="text-2xl font-bold text-emerald-600">₹{(stats.totalPaid || 0).toLocaleString()}</p>
+            <p className="text-2xl font-bold text-emerald-600">
+              ₹{(stats.totalPaid || 0).toLocaleString()}
+            </p>
           </div>
 
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
@@ -126,15 +165,22 @@ const Dashboard = () => {
               <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
                 <Clock size={15} className="text-orange-500" />
               </div>
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Due</span>
+              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                Due
+              </span>
             </div>
-            <p className="text-2xl font-bold text-orange-600">₹{(stats.totalDue || 0).toLocaleString()}</p>
+            <p className="text-2xl font-bold text-orange-600">
+              ₹{(stats.totalDue || 0).toLocaleString()}
+            </p>
           </div>
         </div>
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div className="flex flex-col md:flex-row gap-4 mb-5">
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300"
+              />
               <input
                 type="text"
                 placeholder="Search by invoice number or customer..."
@@ -144,14 +190,14 @@ const Dashboard = () => {
               />
             </div>
             <div className="flex gap-2">
-              {['ALL', 'DRAFT', 'PAID', 'ARCHIVED'].map((f) => (
+              {["ALL", "DRAFT", "PAID", "ARCHIVED"].map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
                   className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                     filter === f
-                      ? 'bg-blue-500 text-white shadow-md shadow-blue-200'
-                      : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+                      ? "bg-blue-500 text-white shadow-md shadow-blue-200"
+                      : "bg-slate-50 text-slate-500 hover:bg-slate-100"
                   }`}
                 >
                   {f}
@@ -187,23 +233,36 @@ const Dashboard = () => {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-400">{inv.customerName} • {new Date(inv.issueDate).toLocaleDateString()}</p>
+                      <p className="text-xs text-slate-400">
+                        {inv.customerName} •{" "}
+                        {new Date(inv.issueDate).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-6">
                     <div className="text-right">
-                      <p className="text-sm font-bold text-slate-700">₹{inv.total?.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-slate-700">
+                        ₹{inv.total?.toLocaleString()}
+                      </p>
                       {inv.balanceDue > 0 && (
-                        <p className="text-[10px] text-orange-500 font-medium">Due: ₹{inv.balanceDue?.toLocaleString()}</p>
+                        <p className="text-[10px] text-orange-500 font-medium">
+                          Due: ₹{inv.balanceDue?.toLocaleString()}
+                        </p>
                       )}
                     </div>
-                    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide ${
-                      inv.status === 'PAID'
-                        ? 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200'
-                        : 'bg-amber-50 text-amber-600 ring-1 ring-amber-200'
-                    }`}>
-                      {inv.status === 'PAID' ? <CheckCircle size={11} /> : <Clock size={11} />}
+                    <span
+                      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide ${
+                        inv.status === "PAID"
+                          ? "bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200"
+                          : "bg-amber-50 text-amber-600 ring-1 ring-amber-200"
+                      }`}
+                    >
+                      {inv.status === "PAID" ? (
+                        <CheckCircle size={11} />
+                      ) : (
+                        <Clock size={11} />
+                      )}
                       {inv.status}
                     </span>
                   </div>

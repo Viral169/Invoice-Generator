@@ -7,6 +7,7 @@ import {
     archiveInvoice,
     restoreInvoice,
 } from "../controllers/Invoice.js";
+import { askAI } from "../controllers/aiController.js";
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.get("/:id", getInvoiceById);
 router.post("/:id/payments", addPayment);
 router.post("/archive", archiveInvoice);
 router.post("/restore", restoreInvoice);
+router.post("/askAI", askAI);
 
 export default router;

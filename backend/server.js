@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Test route
 app.get("/", (req, res) => {
-    res.json({ message: "Server is running 🚀" });
+  res.json({ message: "Server is running 🚀" });
 });
 
 // Routes
@@ -25,5 +25,5 @@ app.use("/api/invoices", invoiceRoutes);
 // Connect DB & Start server
 connectionDB();
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ${PORT}`);
 });

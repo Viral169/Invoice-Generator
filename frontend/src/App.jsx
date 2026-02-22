@@ -1,7 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import InvoiceDetails from './pages/InvoiceDetail';
-import CreateInvoice from './pages/CreateInvoice';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import InvoiceDetails from "./pages/InvoiceDetail";
+import CreateInvoice from "./pages/CreateInvoice";
 
 function App() {
   return (
